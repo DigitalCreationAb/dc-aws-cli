@@ -18,14 +18,16 @@ namespace DC.Cli
         private static ILanguageVersion Node10 { get; } = new NodeVersion("10", "nodejs10.x", "10");
         private static ILanguageVersion Node12 { get; } = new NodeVersion("12", "nodejs12.x", "12");
         private static ILanguageVersion Node14 { get; } = new NodeVersion("14", "nodejs14.x", "14");
+        private static ILanguageVersion Node16 { get; } = new NodeVersion("16", "nodejs16.x", "16");
 
-        public string Name { get; } = LanguageName;
+        public string Name => LanguageName;
 
         public IEnumerable<ILanguageVersion> GetVersions()
         {
             yield return Node10;
             yield return Node12;
             yield return Node14;
+            yield return Node16;
         }
 
         public ILanguageVersion GetDefaultVersion()
