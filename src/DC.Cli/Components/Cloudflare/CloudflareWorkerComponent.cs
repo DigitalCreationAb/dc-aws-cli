@@ -34,7 +34,7 @@ namespace DC.Cli.Components.Cloudflare
             _settings = settings;
 
             _dockerContainer = Docker
-                .ContainerFromImage("node", $"{settings.GetProjectName()}-cf-{configuration.Name}")
+                .ContainerFromImage("node:16", $"{settings.GetProjectName()}-cf-{configuration.Name}")
                 .EntryPoint("yarn")
                 .WithVolume(path.FullName, "/usr/src/app", true)
                 .EnvironmentVariable("DESTINATION_PORT", configuration.Settings.DestinationPort.ToString());
