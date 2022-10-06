@@ -8,8 +8,8 @@ namespace DC.Cli
     {
         private const string LanguageName = "go";
 
-        public string Name { get; } = LanguageName;
-        
+        public string Name => LanguageName;
+
         public static ILanguage Instance { get; } = new GoLanguage();
         
         private static ILanguageVersion Go1 { get; } = new GoVersion("1", "go1.x", "1.19");
@@ -37,10 +37,11 @@ namespace DC.Cli
                 _dockerContainer = Docker
                     .TemporaryContainerFromImage($"golang:{dockerImageTag}")
                     .EntryPoint("go")
-                    .EnvironmentVariable("GOPATH", "/usr/local/src/.go");
+                    .EnvironmentVariable("GOPATH", "/usr/local/src/.go")
+                    .EnvironmentVariable("CGO_ENABLED", "0");
             }
 
-            public string Language { get; } = LanguageName;
+            public string Language => LanguageName;
             public string Version { get; }
             
             public Task<bool> Restore(string path)
