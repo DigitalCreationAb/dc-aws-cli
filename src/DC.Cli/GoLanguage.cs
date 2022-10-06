@@ -12,7 +12,7 @@ namespace DC.Cli
         
         public static ILanguage Instance { get; } = new GoLanguage();
         
-        private static ILanguageVersion Go1 { get; } = new GoVersion("1", "go1.x", "1.14");
+        private static ILanguageVersion Go1 { get; } = new GoVersion("1", "go1.x", "1.19");
         
         public IEnumerable<ILanguageVersion> GetVersions()
         {
