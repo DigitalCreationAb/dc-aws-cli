@@ -6,6 +6,6 @@ ARG GROUP_ID
 RUN if getent passwd ${USER_ID} ; then deluser $(getent passwd ${USER_ID} | cut -d: -f1); fi &&\
     if getent group ${GROUP_ID} ; then delgroup ${GROUP_ID}; fi &&\
     addgroup local --gid ${GROUP_ID} &&\
-    adduser --disabled-password --gecos '' -u ${USER_ID} --gid ${GROUP_ID} local
+    adduser --disabled-password --gecos '' -u ${USER_ID} --ingroup local local
 
 USER local
