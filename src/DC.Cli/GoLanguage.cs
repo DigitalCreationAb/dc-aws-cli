@@ -35,10 +35,9 @@ namespace DC.Cli
                 _runtimeName = runtimeName;
 
                 _dockerContainer = Docker
-                    .TemporaryContainerFromImage($"golang:{dockerImageTag}-alpine")
+                    .TemporaryContainerFromImage($"golang:{dockerImageTag}")
                     .EntryPoint("go")
-                    .EnvironmentVariable("GOPATH", "/usr/local/src/.go")
-                    .EnvironmentVariable("CGO_ENABLED", "0");
+                    .EnvironmentVariable("GOPATH", "/usr/local/src/.go");
             }
 
             public string Language => LanguageName;
