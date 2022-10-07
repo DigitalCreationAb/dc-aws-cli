@@ -69,7 +69,15 @@ namespace DC.Cli
 
                 if (!restoreResult)
                     return false;
-                
+
+                if (File.Exists(Path.Combine(path, "build.sh")))
+                {
+                    return await _dockerContainer
+                        .WithVolume(path, "/usr/local/src", true)
+                        .EntryPoint("./build.sh")
+                        .Run("");   
+                }
+
                 return await _dockerContainer
                     .WithVolume(path, "/usr/local/src", true)
                     .Run("build -o ./.out/main -v .");
