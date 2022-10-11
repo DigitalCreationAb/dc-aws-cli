@@ -12,7 +12,7 @@ namespace DC.Cli
 
         public static ILanguage Instance { get; } = new GoLanguage();
         
-        private static ILanguageVersion Go1 { get; } = new GoVersion("1", "go1.x", "1.19");
+        private static ILanguageVersion Go1 { get; } = new GoVersion("1", "go1.x");
         
         public IEnumerable<ILanguageVersion> GetVersions()
         {
@@ -29,7 +29,7 @@ namespace DC.Cli
             private readonly string _runtimeName;
             private readonly Docker.Container _dockerContainer;
             
-            public GoVersion(string version, string runtimeName, string dockerImageTag)
+            public GoVersion(string version, string runtimeName)
             {
                 Version = version;
                 _runtimeName = runtimeName;
