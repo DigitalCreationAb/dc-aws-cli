@@ -12,26 +12,34 @@ namespace DC.Cli
 {
     public static class Docker
     {
-        public static Container TemporaryContainerFromImage(string image, bool runAsCurrentUser = true)
+        public static Container TemporaryContainerFromImage(
+            string image,
+            bool runAsCurrentUser = true,
+            string project = "base")
         {
-            return ContainerFromImage(image, null, runAsCurrentUser);
+            return ContainerFromImage(image, null, runAsCurrentUser, project);
         }
         
-        public static Container ContainerFromImage(string image, string name, bool runAsCurrentUser = true)
+        public static Container ContainerFromImage(
+            string image,
+            string name,
+            bool runAsCurrentUser = true,
+            string project = "base")
         {
-            return CreateContainer(image, name, runAsCurrentUser);
+            return CreateContainer(image, name, runAsCurrentUser, project);
         }
         
         public static Container ContainerFromProject(
             string name,
             string imageName,
             string containerName,
-            bool runAsCurrentUser = true)
+            bool runAsCurrentUser = true,
+            string project = "base")
         {
             var imageTag = $"{imageName}:{Assembly.GetExecutingAssembly().GetInformationVersion()}";
 
             if (HasImage(imageTag)) 
-                return CreateContainer(imageTag, containerName, runAsCurrentUser);
+                return CreateContainer(imageTag, containerName, runAsCurrentUser, project);
 
             var fileData = GetProjectDockerContent(name);
 
@@ -54,10 +62,14 @@ namespace DC.Cli
             process?.CloseMainWindow();
             process?.Close();
 
-            return CreateContainer(imageTag, containerName, runAsCurrentUser);
+            return CreateContainer(imageTag, containerName, runAsCurrentUser, project);
         }
 
-        private static Container CreateContainer(string image, string name, bool runAsCurrentUser)
+        private static Container CreateContainer(
+            string image,
+            string name,
+            bool runAsCurrentUser,
+            string project)
         {
             if (!runAsCurrentUser)
                 return new Container(name, image);
@@ -67,7 +79,7 @@ namespace DC.Cli
             if (HasImage(imageTag))
                 return new Container(name, imageTag);
             
-            var fileData = GetProjectDockerContent("base", ("BASE_IMAGE", image));
+            var fileData = GetProjectDockerContent(project, ("BASE_IMAGE", image));
 
             var userId = RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                 ? ProcessExecutor.Execute("id", "-u").output.Split('\n').FirstOrDefault()

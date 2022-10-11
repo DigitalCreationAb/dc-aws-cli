@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>dc</AssemblyName>
-    <Version>0.133.0</Version>
+    <Version>0.134.0</Version>
     <RootNamespace>DC.Cli</RootNamespace>
   </PropertyGroup>
 
@@ -34,6 +34,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <EmbeddedResource Include="Containers\centos\Dockerfile" />
     <EmbeddedResource Include="Containers\base\Dockerfile" />
     <EmbeddedResource Include="Templates\Infrastructure\api-gw.config.yml" />
     <EmbeddedResource Include="Templates\Infrastructure\api-lambda-function.config.yml" />

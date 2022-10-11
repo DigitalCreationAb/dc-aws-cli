@@ -35,7 +35,7 @@ namespace DC.Cli
                 _runtimeName = runtimeName;
 
                 _dockerContainer = Docker
-                    .TemporaryContainerFromImage($"golang:{dockerImageTag}")
+                    .TemporaryContainerFromImage("amazonlinux:2", project: "centos")
                     .EntryPoint("go")
                     .EnvironmentVariable("GOPATH", "/usr/local/src/.go");
             }
