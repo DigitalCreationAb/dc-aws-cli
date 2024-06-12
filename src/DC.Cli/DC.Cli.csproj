@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>dc</AssemblyName>
-    <Version>0.136.0</Version>
+    <Version>0.137.0</Version>
     <RootNamespace>DC.Cli</RootNamespace>
   </PropertyGroup>
 

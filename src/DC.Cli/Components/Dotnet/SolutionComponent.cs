@@ -16,7 +16,7 @@ namespace DC.Cli.Components.Dotnet
             _path = path;
             
             _dockerContainer = Docker
-                .ContainerFromImage("mcr.microsoft.com/dotnet/sdk:5.0", $"{settings.GetProjectName()}-dotnet-{Name}")
+                .ContainerFromImage("mcr.microsoft.com/dotnet/sdk:8.0", $"{settings.GetProjectName()}-dotnet-{Name}")
                 .EntryPoint("dotnet")
                 .WithVolume(path.Directory.FullName, "/usr/local/src", true);
         }

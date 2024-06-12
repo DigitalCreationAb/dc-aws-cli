@@ -19,9 +19,7 @@ namespace DC.Cli
 
         public static string GetInformationVersion(this Assembly assembly)
         {
-            return assembly
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-                .InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "";
+            return assembly.GetName().Version?.ToString() ?? "";
         }
     }
 }
