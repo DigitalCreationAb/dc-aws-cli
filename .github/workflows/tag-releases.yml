@@ -10,9 +10,10 @@ jobs:
       - uses: actions/checkout@master
       - name: Tag release
         id: tag_release
-        uses: butlerlogic/action-autotag@master
-        with:
+        uses: butlerlogic/action-autotag@stable
+        env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
           strategy: regex
           tag_prefix: "v"
           root: "src/DC.Cli/DC.Cli.csproj"
