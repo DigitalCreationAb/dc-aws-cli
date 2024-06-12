@@ -1,55 +1,43 @@
-name: Tag new releases
+name: Create release from tags
+
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Tag release
-        id: tag_release
-        uses: butlerlogic/action-autotag@stable
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        with:
-          strategy: regex
-          tag_prefix: "v"
-          root: "src/DC.Cli/DC.Cli.csproj"
-          regex_pattern: "<Version>((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)</Version>"
       - name: Build Packages
-        if: steps.tag_release.outputs.tagname
-        run: make VERSION=${{ steps.tag_release.outputs.tagname }} package
+        run: make VERSION=${{ github.ref }} package
       - name: Create Release
-        if: steps.tag_release.outputs.tagname
         id: create_release
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag_release.outputs.tagname }}
-          release_name: Release ${{ steps.tag_release.outputs.tagname }}
-          body: Release ${{ steps.tag_release.outputs.tagname }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: Release ${{ github.ref }}
           draft: false
           prerelease: false
       - name: Upload win-x64 release
-        if: steps.tag_release.outputs.tagname
         uses: actions/upload-release-asset@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./.packages/dc-${{ steps.tag_release.outputs.tagname }}-win-x64.zip
-          asset_name: dc-${{ steps.tag_release.outputs.tagname }}-win-x64.zip
+          asset_path: ./.packages/dc-${{ github.ref }}-win-x64.zip
+          asset_name: dc-${{ github.ref }}-win-x64.zip
           asset_content_type: application/zip
       - name: Upload linux-x64 release
-        if: steps.tag_release.outputs.tagname
         uses: actions/upload-release-asset@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./.packages/dc-${{ steps.tag_release.outputs.tagname }}-linux-x64.zip
-          asset_name: dc-${{ steps.tag_release.outputs.tagname }}-linux-x64.zip
+          asset_path: ./.packages/dc-${{ github.ref }}-linux-x64.zip
+          asset_name: dc-${{ github.ref }}-linux-x64.zip
           asset_content_type: application/zip
